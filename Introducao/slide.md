@@ -1,13 +1,12 @@
 !SLIDE center
 
-# Lua
-
 ![](lua.png)
 
 ### Luca Couto Manique Barreto
 ### Lucas Fialho Zawacki
+#### Grupo PET Computação
 
-!SLIDE bullets incremental
+!SLIDE bullets transition=fade
 
 # Introdução #
 
@@ -15,7 +14,7 @@
 * Aproximadamente 1700 linhas de código
 * Roda embarcada em programas C
 
-!SLIDE bullets
+!SLIDE bullets transition=fade
 
 # Motivação
 
@@ -23,7 +22,7 @@
 * Fazer isso de maneira simples e eficiente
 * Do more with less
 
-!SLIDE bullets
+!SLIDE bullets transition=fade
 
 # Features
 
@@ -32,17 +31,16 @@
 * Garbage Collection incremental
 * Sintaxe simples
 
-!SLIDE bullets
+!SLIDE bullets transition=fade
 
 # Onde é usada
 
 * Ginga
-* WoW / WarHammer Online / Ragnarok
+* WoW / WarHammer Online / Ragnarök Online
 * Consoles da Sony (principalmente PSP)
 * Adobe Photoshop Lightroom
-* Muito outros...
 
-!SLIDE bullets
+!SLIDE bullets transition=fade
 
 # Instalação
 
@@ -50,20 +48,20 @@
 * Baixando o código fonte
 * Instalador (Windows)
 
-!SLIDE
+!SLIDE commandline incremental transition=fade
 
     $ lua
     Lua 5.1.4  Copyright (C) 1994-2008 Lua.org, PUC-Rio
-    > print("Hello lua World")
+    $ print("Hello lua World")
     Hello lua World
-    > a = 1
-    > print(a+2)
+    $ a = 1
+    $ print(a+2)
     3
 
-!SLIDE 
+!SLIDE commandline incremental transition=fade
 
-    luac -o compilado.out -
-    print("Hello luac World") 
+    $ luac -o compilado.out -
+    $ print("Hello luac World") 
     $ lua compilado.out 
     Hello luac World
 

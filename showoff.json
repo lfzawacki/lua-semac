@@ -1,8 +1,9 @@
-{ "name": "Introdução à Linguagem Lua", "sections": 
+{ "name": "Lua@semac", "sections": 
 
 [ {"section" : "Introducao" } ,
   {"section" : "Sintaxe" },
+  {"section" : "Escopos"},
   {"section" : "Tipos" }
 ]
-
+, "transition" : "fade"
 }
