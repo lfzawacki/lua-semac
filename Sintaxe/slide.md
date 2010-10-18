@@ -1,15 +1,15 @@
-!SLIDE subsection transition=fade
+!SLIDE subsection 
 
 ## Como eu escrevo o código então?
 
-!SLIDE bullets transition=fade
+!SLIDE bullets 
 
 # Sintaxe 
 
 * Minimalista
 * Menos símbolos e mais palavras
 
-!SLIDE code transition=fade
+!SLIDE code 
 
     @@@ ruby
 	function fizzBuzz(n)
@@ -29,7 +29,7 @@
 		return res
 	end
 
-!SLIDE bullets transition=fade
+!SLIDE bullets 
 
 # Variáveis
 
@@ -37,7 +37,7 @@
 * Globais
 * Campo de uma tabela
 
-!SLIDE code transition=fade
+!SLIDE code 
 
     @@@ ruby
     g = 20 -- global com o número 20
@@ -48,7 +48,7 @@
     end
     print(g, l, l["valor"], n )
 
-!SLIDE transition=fade
+!SLIDE 
 
 # Palavras reservadas
 
@@ -58,7 +58,7 @@
     repeat    return    then      true      until
     while
 
-!SLIDE transition=fade
+!SLIDE 
 
 # Operadores
 
@@ -71,7 +71,7 @@
     and
     or
 
-!SLIDE  transition=fade
+!SLIDE  
 
 # Controle de fluxo
 
@@ -86,7 +86,7 @@
     [else block] 
     end
 
-!SLIDE code transition=fade
+!SLIDE code 
 
     @@@ ruby
     local e = 10
@@ -99,7 +99,7 @@
     	print("Sei lá então...")
     end
 
-!SLIDE  transition=fade
+!SLIDE  
 # while
 
     @@@ ruby
@@ -107,7 +107,7 @@
     	block 
     end
 
-!SLIDE code transition=fade
+!SLIDE code 
 
     @@@ ruby
     -- euclides
@@ -122,7 +122,7 @@
     end
     print('MDC: ' .. a)
 
-!SLIDE  transition=fade
+!SLIDE  
 # for numérico
 
     @@@ ruby
@@ -130,7 +130,7 @@
     	block
     end
 
-!SLIDE code transition=fade
+!SLIDE code 
 
     @@@ ruby
     local numbers = { 0 , 99, 3, 20 , 51 }
@@ -139,7 +139,7 @@
     	print(numbers[i])
     end
 
-!SLIDE  transition=fade
+!SLIDE  
 # for genérico
 
     @@@ ruby
@@ -147,7 +147,7 @@
     	block 
     end
 
-!SLIDE code transition=fade
+!SLIDE code 
 
     @@@ ruby
     local food = { "banana", "alface", "batata", "batata-frita" }
@@ -160,14 +160,14 @@
     	print('food[' .. k .. '] tem: ' .. v)
     end
 
-!SLIDE bullets transition=fade
+!SLIDE bullets 
 
 # Exercícios
 
 * Sabendo que a distância da terra até a Lua é aproximadamente 384403 km, faça uma programa que leia do teclado o número de viagens (considere que uma viagem é ida e volta) para a Lua e calcule a distância total a ser percorrida.
 * **--->** dica io.read()
 
-!SLIDE smbullets transition=fade
+!SLIDE smbullets 
 
 # Exercícios
 

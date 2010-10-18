@@ -1,8 +1,8 @@
-!SLIDE subsection transition=fade
+!SLIDE subsection 
 
 ## Um pouco mais de detalhes
 
-!SLIDE bullets transition=fade
+!SLIDE bullets 
 
 # Chunks
 
@@ -10,14 +10,14 @@
 * Uma linha, um arquivo, um código pré-compilado
 * Integração é transparente
 
-!SLIDE bullets transition=fade
+!SLIDE bullets 
 
 # Escopos
 
 * **Globais**: visíveis em todos blocos e chunks
 * **Locais**: visíveis do seu bloco em diante
 
-!SLIDE commandline transition=fade
+!SLIDE commandline 
 
     $ lua
     $ local a = 1
@@ -27,7 +27,7 @@
     $ print(a)
     1
 
-!SLIDE  code transition=fade
+!SLIDE  code 
 
     @@@ ruby
     -- hello.lua
@@ -35,7 +35,7 @@
     local nome = io.read()
     print("Olá " .. nome)
 
-!SLIDE  commandline transition=fade
+!SLIDE  commandline 
 
     $ lua
     $ chunk = loadfile('hello.lua')

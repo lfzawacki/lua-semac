@@ -1,8 +1,8 @@
-!SLIDE subsection transition=fade
+!SLIDE subsection 
 
 ## Quais são os tipos disponíveis?
 
-!SLIDE bullets transition=fade
+!SLIDE bullets 
 
 # Tipos #
 
@@ -12,7 +12,7 @@
 * Function
 * Outros
 
-!SLIDE bullets transition=fade
+!SLIDE bullets 
 
 # "Primitivos"
 
@@ -20,7 +20,7 @@
 * Number
 * Boolean
 
-!SLIDE  transition=fade
+!SLIDE  
 
     @@@ ruby
     print(a, type(a)) -- variável não inicializada
@@ -32,14 +32,14 @@
     	print('Impossivel')
     end
 
-!SLIDE bullets transition=fade
+!SLIDE bullets 
 
 # String
 
 * Imutável
 * Funções de utilidade dentro da tabela string
 
-!SLIDE  transition=fade
+!SLIDE  
 
     @@@ ruby
     local str = 'nova string'
@@ -47,7 +47,7 @@
     print( str .. ' com ' .. outra_str)
     print( string.gsub(str , 'nova' , 'velha') )
 
-!SLIDE transition=fade
+!SLIDE 
 
     @@@ ruby
     -- saudades do printf?
@@ -55,7 +55,7 @@
     local nome = 'lucas'
     print(string.format('Oi eu sou %s e tenho %d anos.\n',nome,idade) )
 
-!SLIDE bullets transition=fade
+!SLIDE bullets 
 
 # Tables
 
@@ -63,7 +63,7 @@
 * Uma hash associativo
 * Serve como array, dicionario, struct, ...
 
-!SLIDE  code transition=fade
+!SLIDE  code 
 
     @@@ ruby
     -- declaracao de uma tabela vazia
@@ -73,7 +73,7 @@
     a["jesus"] = 0
     a[1] = 3  
 
-!SLIDE code transition=fade
+!SLIDE code 
 
     @@@ ruby
     -- exemplo de array
@@ -82,7 +82,7 @@
     print(a[3]) -- 2
 
 
-!SLIDE code transition=fade
+!SLIDE code 
 
     @@@ ruby
     -- exemplo de struct
@@ -91,14 +91,14 @@
     peep["age"] = 19 --  também podia ser peep.age = 19
     print(peep.name .. " | " .. peep.age)
 
-!SLIDE bullets transition=fade
+!SLIDE bullets 
 
 # Function
 
 * Objetos de primeira ordem
 * Podem receber e retornar um número qualquer de parâmetros
 
-!SLIDE transition=fade
+!SLIDE 
 
     @@@ ruby
     -- definindo funções
@@ -112,7 +112,7 @@
 
     print( foo(2) + goo(3) )
 
-!SLIDE transition=fade
+!SLIDE 
 
     @@@ ruby
     -- um pouco de mágica
@@ -126,7 +126,7 @@
     print('Por favor')
     a('Agora sim!')
 
-!SLIDE transition=fade
+!SLIDE 
 
     @@@ ruby
     -- multiplos retornos
@@ -145,7 +145,7 @@
 
     print( maximum({3,99,12,50}) ) 
 
-!SLIDE code transition=fade
+!SLIDE code 
 
     @@@ ruby
     -- um menu
@@ -158,21 +158,21 @@
     menu['repolho']()
     menu['sair']()
 
-!SLIDE bullets transition=fade
+!SLIDE bullets 
 
 # Outros
 
 * Userdata
 * Thread
 
-!SLIDE bullets transition=fade
+!SLIDE bullets 
 
 # Tipagem
 
 * Dinâmica
 * Fraca
 
-!SLIDE code transition=fade
+!SLIDE code 
 
 # Tipagem Dinâmica
 
@@ -184,7 +184,7 @@
     var_exemplo = print
     var_exemplo(var_exemplo)
 
-!SLIDE code transition=fade
+!SLIDE code 
 
 # Tipagem Fraca
 
@@ -200,7 +200,7 @@
     numero = numero .. '1'
     print(numero, type(numero))
 
-!SLIDE smbullets transition=fade
+!SLIDE smbullets 
 
 # Exercício
 
@@ -212,7 +212,7 @@
 
 * A função deve imprimir os pares (x,y) para cada valor de x.
 
-!SLIDE smbullets transition=fade
+!SLIDE smbullets 
 
 # Exercício
 

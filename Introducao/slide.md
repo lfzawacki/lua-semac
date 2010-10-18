@@ -6,7 +6,7 @@
 ### Lucas Fialho Zawacki
 #### Grupo PET Computação
 
-!SLIDE bullets transition=fade
+!SLIDE bullets 
 
 # Introdução #
 
@@ -14,7 +14,7 @@
 * Aproximadamente 1700 linhas de código
 * Roda embarcada em programas C
 
-!SLIDE bullets transition=fade
+!SLIDE bullets 
 
 # Motivação
 
@@ -22,7 +22,7 @@
 * Fazer isso de maneira simples e eficiente
 * Do more with less
 
-!SLIDE bullets transition=fade
+!SLIDE bullets 
 
 # Features
 
@@ -31,7 +31,7 @@
 * Garbage Collection incremental
 * Sintaxe simples
 
-!SLIDE bullets transition=fade
+!SLIDE bullets 
 
 # Onde é usada
 
@@ -40,7 +40,7 @@
 * Consoles da Sony (principalmente PSP)
 * Adobe Photoshop Lightroom
 
-!SLIDE bullets transition=fade
+!SLIDE bullets 
 
 # Instalação
 
@@ -48,7 +48,7 @@
 * Baixando o código fonte
 * Instalador (Windows)
 
-!SLIDE commandline incremental transition=fade
+!SLIDE commandline incremental 
 
     $ lua
     Lua 5.1.4  Copyright (C) 1994-2008 Lua.org, PUC-Rio
@@ -58,7 +58,7 @@
     $ print(a+2)
     3
 
-!SLIDE commandline incremental transition=fade
+!SLIDE commandline incremental 
 
     $ luac -o compilado.out -
     $ print("Hello luac World") 
