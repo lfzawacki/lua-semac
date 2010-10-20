@@ -1,9 +1,13 @@
-{ "name": "Lua@semac", "sections": 
-
-[ {"section" : "Introducao" } ,
-  {"section" : "Sintaxe" },
-  {"section" : "Escopos"},
-  {"section" : "Tipos" }
-]
-, "transition" : "fade"
+{ "name": "Lua@semac",  "_comment" : { "sections": 
+	[ {"section" : "Introducao" } ,
+	  {"section" : "Sintaxe" },
+	  {"section" : "Escopos"},
+	  {"section" : "Tipos" }
+	] },
+	"sections" : [
+	{ "section" : "Closures" }, 
+	{ "section" : "Metatables" } ,
+	{ "section" : "C API" },
+	{ "section" : "Apps" }
+	]
 }
