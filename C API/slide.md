@@ -5,6 +5,7 @@
 ## __Um satélite,__
 ## __Código que orbita__
 ## __O planeta C.__
+### Caio L. P. Miranda
 
 !SLIDE bullets
 

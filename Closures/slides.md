@@ -2,10 +2,11 @@
 
 ![](../Introducao/lua.png)
 
+## Aula 2
 ### Luca Couto Manique Barreto
 ### Lucas Fialho Zawacki
+### [Ir para Aula 1](#1)
 #### Grupo PET Computação
-
 !SLIDE bullets
 
 # Revisão
@@ -104,4 +105,14 @@
 		print(element)
 	end
 
+!SLIDE bullets code
+
+# Exercício
+
+* Crie uma função acum(x) que recebe um número, imprime seu acumulador e retorna uma outra função que recebe um número e que possui o acumulador = acum + x.
+* Exemplo de chamada:
+
+    f = f(2) -- imprime 0
+    f = f(4) -- imprime 2
+    f = f(1) -- imprime 6
 

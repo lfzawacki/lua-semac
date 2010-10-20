@@ -26,6 +26,8 @@
 
 !SLIDE bullets
 
+# Lua embarcado em um emulador de NES
+
 * [Megaman 2 Laser Eyes](http://www.youtube.com/watch?v=IvDXZmS2MAU&feature=player_embedded)
 * [Mario 3 Rainbow Riding](http://www.youtube.com/watch?v=1XNTjVScm_8&feature=related)
 
@@ -37,6 +39,10 @@
 
 !SLIDE bullets
 
-# Código disponível em:
+# Código e slides disponíveis em:
 
 * [http://github.com/lfzawacki/lua-semac](http://github.com/lfzawacki/lua-semac)
+
+!SLIDE
+
+## OBRIGADO!

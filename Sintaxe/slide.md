@@ -71,11 +71,13 @@
     and
     or
 
-!SLIDE  
+!SLIDE  bullets
 
 # Controle de fluxo
 
-!SLIDE  transition=fade
+* Sintaxe para as construções mais comuns de seleção e repetição
+
+!SLIDE 
 # if then else
 
     @@@ ruby
