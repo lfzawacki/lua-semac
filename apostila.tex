@@ -1,0 +1,694 @@
+\documentclass[a4paper,12pt]{abnt}
+
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{listings}
+\usepackage{verbatim}
+\usepackage[usenames,dvipsnames]{color}
+
+%opening
+\titulo{A Linguagem Lua}
+\comentario{Anos perdidos na confusa imensidão da Galáxia, enfim,
+elegante refúgio sob a luz da Lua}
+\autor{Lucas Fialho Zawacki \\ Luca Couto Manique Barreto}
+
+%-------------------------------------------------------------------
+
+\begin{document}
+
+%-------------------------------------------------------------------
+
+\folhaderosto
+\sumario
+
+\input{./lua.def}
+\lstset{language=Lua,
+	extendedchars=true,
+	inputencoding=utf8,
+	basicstyle=\ttfamily,
+   keywordstyle=\color{BlueViolet},
+   commentstyle=\color{BrickRed},
+   stringstyle=\color{ForestGreen},
+  % numbers=left,
+   numberstyle=\tiny\color{RedViolet},
+  % stepnumber=1,
+   numbersep=10pt,
+   backgroundcolor=\color{white},
+   tabsize=2,
+   showspaces=false,
+	showstringspaces=false,
+	texcl=true,
+	escapechar={\©},
+	breaklines=true
+}
+
+\chapter{Introdução}
+
+Criada em 1993 pelo Grupo de Tecnologia em Computação Gráfica (TecGraf) da
+Pontíficie Universidade Católica do Rio de Janeiro (PUC/Rio) \cite{luaabout},
+Lua é uma linguagem de script simples, porém poderosa.
+Tendo todo seu código implementado em pouco mais de
+17 mil linhas (e pesando menos de 300KB) \cite{luaabout}, esta linguagem
+tira suas forças do C, já que foi feita com o propósito de ser embarcada
+em aplicações já existentes.
+
+A grosso modo, Lua é um conjunto de bibliotecas ANSI C que provêm
+funções para rodar scripts, chamar funções C de dentro
+do código Lua (e vice-versa), manipular parâmetros da máquina virtual
+e trocar dados entre os dois ambientes.
+
+\section{Motivação}
+
+A linguagem foi escolhida por causa do nicho que preenche:
+aplicações que depedendem da eficiência e disponibilidade da linguagem C,
+mas que necessitam de uma maneira fácil, rápida e indolor de extensão de
+funcionalidades. Este nicho engloba game engines \cite{luascript},
+aplicações em hardwares embarcados, servidores web e outros.
+Porém a linguagem evoluiu muito desde sua criação e já
+demonstrou potencial em diversas áreas, como programação científica \cite{luacient},
+especificação de dados e (recentemente) até frameworks
+para desenvolvimento web \cite{luaweb} !
+
+Algumas features que despertaram o interesse:
+
+\begin{itemize}
+\item Linguagem de Script
+\item Integração com C (Rápida)
+\item OpenSource
+\item JIT Compiling na máquina virtual (MAIS Rápida!)
+\item Coleta de Lixo mark-and-sweep incremental (bom para aplicações real-time)
+\item Funções como valores de primeira ordem.
+\item Expressões Regulares (muito próximas de POSIX)
+\item Facilidade de criar meta-linguagens e especificar dados
+
+\end{itemize}
+
+\section{Instalação}
+
+Pelo seu caráter embarcado, muitas vezes o interpretador da linguagem já virá
+"instalado" dentro do ambiente que a utilizará. Mesmo assim, podemos querer
+instalar as versões \emph{stand-alone} do interpretador ou até obter o código
+fonte para podermos embarcá-la em nossas próprias aplicações. Distribuições da
+linguagem podem ser encontradas em \cite{luaorg}.
+
+\chapter{Sintaxe}
+
+A sintaxe é minimalista e visa usar mais palavras do que símbolos.
+Um exemplo seria a delimitação de novos blocos de código é
+feita com as palavras \emph{do end}. Outro é o uso de vários operadores como
+palavras, em oposição a símbolos, como  \emph{and}, \emph{or} e \emph{not}.
+
+\section{Palavras reservadas}
+
+Estas são palavras reservadas pelo interpretador da linguagem e não podem ser
+utilizadas como nomes de variáveis.
+
+\begin{lstlisting}
+and       break     do        else      elseif
+end       false     for       function  if
+in        local     nil       not       or
+repeat    return    then      true      until
+while
+\end{lstlisting}
+
+\section{Operadores}
+
+A seguir uma tabela dos operadores da linguagem, em ordem de precedência:
+
+\begin{lstlisting}
+^
+not  - (unario)
+*   /
++   -
+..
+<   >   <=  >=  ~=  ==
+and
+or
+\end{lstlisting}
+
+\section{Declaração de Variáveis}
+
+Em Lua existem três tipos de variáveis podem ser declaradas:
+globais, locais e campos de tabelas. A diferença entre
+elas é a visibilidade.
+
+Variáveis passam a existir à partir da próxima linha depois de sua definição.
+Caso nada seja especificado na hora da definição
+a variável será considerada global,
+para criar variáves locais é preciso prefixar a definição
+com a palavra reservada \emph{local}.
+Seguem alguns exemplos de declaração de variáveis:
+
+\begin{lstlisting}
+-- definindo a e b como variaveis locais
+local a = 2
+local b = "yeah"
+
+-- c e uma variavel global
+c = 10
+
+-- uma tabela
+local d = {}
+
+-- nome e um campo da tabela b
+d.nome = b
+print(d.nome)
+\end{lstlisting}
+
+Uma variável sempre contém o valor \emph{nil} antes de ser inicializada,
+isto serve também para campos de uma tabela e é útil para testar
+se variáveis estão ou não definidas.
+
+\chapter{Escopos}
+
+\section{Visibilidade e Acesso de Variáveis}
+
+Construindo à partir do que foi falado no último capítulo,
+existem dois tipos de escopo em Lua: local e global.
+
+\begin{lstlisting}
+-- variavel disponiveis em todos os escopos
+a = 1
+
+-- variavel local
+local b = 2
+
+function foo() do
+    print(a)
+    local a = 2
+    print(a + b)
+end
+\end{lstlisting}
+
+Como era de se esperar variáveis globais podem ser acessadas em qualquer
+\emph{chunk} (mais sobre eles à seguir) a qualquer momento.
+Note que a funcao teve acesso à variável \emph{a}, naturalmente,
+mas também conseguiu sem problemas manipular
+a variável \emph{b} que não pertencia ao seu escopo.
+
+Isto acontece porque em Lua os escopos mais aninhados tem acesso às
+variáveis locais dos escopos superiores.
+Estas variáveis são chamadas up-values e podem ser usadas para
+implementar um conceito de linguagens
+funcionais conhecido como \emph{closures} \cite{closures}.
+
+\section{Chunks}
+
+Todo código que roda na VM do Lua é tratado como um chunk \cite{pil}.
+Ele pode ser uma linha (o interpretador recebendo texto e executando),
+ou qualquer número de comandos concatenados. O interpretador Lua sempre
+cria um chunk à partir do código que está sendo lido no momento e
+portanto o "binário" executado é simplesmente uma sequência de chunks.
+
+Como benefício desta abordagem temos que é possível misturar código Lua
+pré-compilado com scripts de maneira transparente.
+
+\chapter{Controle de fluxo}
+
+Não podiam faltar na linguagem os comandos para delinear o
+fluxo de controle do programa, aqui é demonstrada a
+sintaxe de cada um lado a lado com exemplos.
+
+
+\section{if then else}
+
+\begin{lstlisting}
+if exp then
+	block
+{elseif exp then
+	block }
+[else block]
+end
+
+local e = 10
+local num = 2^e
+if num == 512 then
+	print("e = " .. 9)
+elseif num == 1024 then
+	print("e = " .. 10)
+else
+	print("Sei la entao...")
+end
+\end{lstlisting}
+
+\section{while}
+
+\begin{lstlisting}
+while e do
+	block
+end
+
+-- euclides
+local a = 21
+local b = 3
+while a ~= b do
+	if a > b then
+		a = a - b
+	else
+		b = b - a
+	end
+end
+print('MDC: ' .. a)
+\end{lstlisting}
+
+\section{for numérico}
+
+\begin{lstlisting}
+for Name = e1 , e2 [, e3] do
+	block
+end
+
+local numbers = { 0 , 99, 3, 20 , 51 }
+
+for i = 1,table.getn(numbers) do
+	print(numbers[i])
+end
+\end{lstlisting}
+
+\section{for genérico}
+
+\begin{lstlisting}
+for namelist in explist do
+	block
+end
+
+
+local food = { "banana", "alface", "batata", "batata-frita" }
+
+for i in pairs(food) do
+	print('food[' .. i .. '] tem: ' .. food[i])
+end
+
+for k,v in ipairs(food) do
+	print('food[' .. k .. '] tem: ' .. v)
+end
+\end{lstlisting}
+
+\chapter{Tipos}
+
+\section{Number}
+
+Number é o nome do tipo usado em Lua para representar números. Eles
+são equivalentes ao tipo \emph{double} da linguagem C, o que
+significa que ela não possui um tipo inteiro nativo.
+Caso seja necessário é possível compilar a linguagem para usar
+como Number um \emph{int}, \emph{long int} ou algum outro tipo.
+
+\section{Nil}
+
+Tipo que possui apenas um valor \emph{nil} e equivalente a void em C/C++.
+Em Lua, atribuir nil a uma variável significa deletá-la.
+
+\section{Boolean}
+
+Além do padrão \emph{true}/\emph{false}, expressões em Lua podem ter seu
+"valor-verdade" avaliado de outra forma: Para a linguagem,
+qualquer tipo diferente de \emph{nil} e \emph{false}
+(inclusive o número 0, o char '\textbackslash0' e afins)
+é considerado \emph{true}.
+
+\section{Strings}
+
+As strings são um tipo simples da linguagem e tem algumas
+características interessantes.
+Toda string é um objeto único na memória, isto quer dizer que cada
+interpretador Lua só tem em sua memória uma cópia de
+cada string usada pelo programa, mesmo que existam várias
+ocorrências dela sendo usadas.
+
+Além disso elas são imutáveis - não é possível modificá-las,
+apenas retornar uma nova com a
+modificação - fazendo com que cada string seja
+mapeada para um simples endereço de memória.
+
+Algumas das consequências disso são comparações de
+string em tempo \emph{O(1)}, maior \emph{overhead} para criação de strings
+e menor uso de memória em casos onde existem muitas ocorrências repetidas.
+Além disso uma clara desvantagem é a perda de eficiência em situações
+que trabalham pesadamente fazendo modifições na mesma string,
+já que elas nunca serão feitas \emph{in place} e decorrerá a criação de várias
+cópias intermediárias \cite{pil}.
+
+\begin{lstlisting}
+--	exemplo de como nao escrever codigo com strings
+--	a criacao constante de novos valores pode ficar pesada
+-- WARNING: bad code ahead!!
+local buff = ""
+for line in io.lines() do
+    buff = buff .. line .. "\n"
+end
+\end{lstlisting}
+
+Como ficará claro mais adiante, a comparação de strings é usada
+pesadamente nos acessos a tabelas e portanto o trade-off
+entre mutabilidade e imutabilidade faz bastante sentido.
+
+\subsection{Biblioteca Padrão}
+
+Na biblioteca padrão dentro da tabela \emph{string}
+temos várias funções para manipular strings.
+
+\begin{lstlisting}
+local str = 'nova string'
+local outra_str = "com aspas duplas"
+print( str .. ' com ' .. outra_str)
+print( string.gsub(str , 'nova' , 'velha') )
+
+-- saudades do printf?
+local idade = 19
+local nome = 'luke'
+print(string.format('Oi eu sou %s e tenho %d anos.\n',nome,idade) )
+\end{lstlisting}
+
+\section{Funções}
+
+Em Lua funções são valores de primeira ordem,
+atente para os seguintes exemplos:
+
+\begin{lstlisting}
+-- declaracao oldschool de funcao
+function foo(x)
+    return x*x
+end
+
+-- equivalente a declaração acima, a variavel
+-- referencia uma funcao anonima
+goo = function (x)
+    return x*x
+end
+
+print( foo(2) + goo(3) )
+\end{lstlisting}
+
+Como podemos ver, uma função é apenas um valor que é associado a um
+nome usando-se uma variável. Por esse motivo, operações como a seguinte
+são possíveis.
+
+\begin{lstlisting}
+-- um pouco de magica
+a = print
+
+print = function (...)
+   a('Nao, funcao errada cara')
+end
+
+print('Algo')
+print('Por favor')
+a('Agora sim!')
+
+\end{lstlisting}
+
+Rodar o exemplo acima pode ser esclarecedor, mas basicamente o que se vê aqui
+é que os nomes de funções não são amarrados estaticamente aos
+valores que carregam, são simples variáveis.
+s
+Além disso, funções podem ser associadas à variáveis locais, o que possibilita
+o seguinte código:
+
+\begin{lstlisting}
+do -- do end delimitam um novo escopo
+	local a = print
+	print = function (...) -- uma funcao anonima que recebe 'n' parametros
+		a('Compre nossos produtos!')
+		a(...) -- imprime os parametros passados para a funcao
+		a('Esta propaganda e um oferecimento das closures!')
+	end
+end
+
+print("Ok","vamos ver")
+print(2+10)
+a("Vamos tentar...") -- a não e deste escopo
+
+\end{lstlisting}
+
+Outra feature interessante é a possibilidade de
+múltiplos retornos em uma função \cite{pil} :
+
+\begin{lstlisting}
+-- multiplos retornos
+function maximo (a)
+
+  local mi = 1          -- indice do maximo
+  local m = a[mi]       -- valor do maximo
+
+  for i,val in ipairs(a) do
+    if val > m then
+      mi = i
+      m = val
+    end
+  end
+
+  return m, mi
+end
+
+print( maximo({3,99,12,50}) )
+
+\end{lstlisting}
+
+\section{Tabelas}
+
+Além dos tipos primitivos em Lua existe um outro tipo muito especial: a tabela.
+Uma tabela é um \emph{array associativo} que usa um hash de mapeamento \cite{pil}
+para relacionar chaves com valores.
+É uma estrutura de dados extremamente simples e versátil e,
+impressionantemente, é a única que está presente em Lua!
+
+\subsection{Vetores e Estruturas}
+
+Não existem arrays (vetores) e structs (estruturas), os dois configuram
+casos especiais de uma tabela,
+alguns exemplos de tabela são os seguintes:
+
+\begin{lstlisting}
+-- declaracao de uma tabela vazia
+a = {}
+-- preenchendo com valores
+a["lucas"] = 10
+a["jesus"] = 0
+a[1] = 3
+
+-- exemplo de array
+array = { 4, 3, 2 , 1 }
+print(a[1]) -- 4
+print(a[3]) -- 2
+
+-- exemplo de struct
+peep = {}
+peep.name = "lucas" -- equivalente a peep["name"] = "lucas"
+peep["age"] = 19 -- usando a notação original, também podia ser peep.age = 19
+print(peep.name .. " | " .. peep.age)
+\end{lstlisting}
+
+\subsection{Namespaces}
+
+Além disso tabelas podem ser usadas para emular o conceito \emph{namespace}
+presente em outras linguagens. A biblioteca padrão, por exemplo, está definida
+dentro de diversas tabelas (math, os, string, ...)
+
+\begin{lstlisting}
+-- namespace 'fun'
+local fun = {}
+
+-- função definida no campo foo da tabela
+fun.foo = function (x,y)
+    return (x+y)^2
+end
+
+-- açucar sintático
+function fun.goo (a,b)
+    return a^2 + 2*a*b + b^2
+end
+
+print(fun.foo(3,4))
+print(fun.goo(5,2))
+\end{lstlisting}
+
+\subsection{Objetos}
+
+Como já visto em 5.6.1, tabelas podem ser tratadas como estruturas, com os campos
+de tipos numérico, booleano e string representando atributos.
+Além disso, graças ao fato de Lua tratar funções como variáveis de primeira
+ordem, estas também podem ser associadas a campos de tabelas, o que lembra o
+conceito de métodos, permitindo tratar tabelas como objetos e nos aproximando
+do paradigma de Programação Orientada a Objeto (POO, vista adiante).
+
+\subsection{Metatables}
+
+Como o próprio nome sugere, Metatables são tabelas que possuem métodos, chamados
+metamethods, que descrevem o comportamento de outras tabelas.
+Existem metamethods de operações aritméticas (como \_\_add), relacionais
+(por exemplo, \_\_eq), entre outros (como \_\_index, método responsável por
+descrever o comportamento de uma tabela quando um campo não inicializado é chamado).
+
+\subsection{Orientação a Objetos}
+
+A relação entre Metatables e Tables parece bastante análoga à relação Classe-Objeto.
+Lua não possui mecanismos próprios da linguagem para Programação Orientada a Objeto,
+entretanto, possui diversos mecanismos que possibilitam 'simular' este paradigma.
+De fato, o que existe em Lua é \emph{POO} Baseada em Protótipos \cite{pbo} , onde a herança de
+classes se dá a partir de um objeto da classe pai que passa a exercer o papel de classe filha.
+
+Outro recurso disponível em Lua para facilitar a POO é o açucar sintático
+objeto:metodo() (equivalente a \emph{objeto.metodo(objeto)} ), que elimina a
+necessidade de passar o objeto que invoca o método como parâmetro explicitamente.
+
+Como podemos ver, as tabelas são um jeito bastante elegante e uniforme de
+representar diversas construções.
+Como dito anteriormente elas são o único tipo composto disponível e
+diversas abstrações podem ser representadas à partir delas.
+
+\section{Outros tipos}
+
+Além dos tipos citados anteriormente existem ainda mais dois:
+\emph{Userdata} e \emph{Thread}. O primeiro representa um bloco de dados qualquer que
+foi recebido do ``{}lado C''{} do programa (tipicamente um ponteiro para uma região de memória).
+O segundo é usado para implementar concorrência de uma maneira bem simples.
+Nenhum dos dois tipos será discutido em mais profundidade aqui. Para maiores
+informações \cite{pil} e \cite{luamanual} podem ser consultados.
+
+\chapter{Garbage Collection}
+
+Garbage Collection (ou coleta de lixo) é o nome da técnica usada por Lua, e
+por várias outras linguagens, para aliviar do programador a responsabilidade
+de gerenciar a alocação e desalocação de memória, bem como ficar fazendo
+malabarismos com as referências para a memória que lhe ``{}pertence''{}.
+
+Isso facilita um estilo de programação mais relaxado,
+criando e descartando valores
+intermediários de forma indiscriminada, o que pode se tornar um problema de performance,
+principalmente em nichos como o desenvolvimento de
+jogos que exigem respostas em tempo real.
+Felizmente para aqueles que precisam da eficiência o
+interpretador provê artifícios para controlar o
+coletor de lixo, para que ele rode mais espaçadamente,
+exatamente quando for pedido ou até mesmo pare por completo.
+Além disso, o algoritmo utilizado é o mark-n-sweep incremental \cite{luamanual}
+que é bastante eficiente para aplicações que dependem de um tempo de resposta rápido.
+
+\chapter{Integração com C API}
+
+Grande parte do charme da linguagem vem do fato
+que ela é construida em cima da base sólida da linguagem C.
+Embora hoje Lua já seja bastante usada como uma
+linguagem \emph{stand-alone} nos mesmos
+moldes que Python, Perl e Ruby a ``{}vocação''{} principal dela é
+ser usada embarcada em outras aplicações.
+Isto é feito de maneira bem simples e direta: incluindo o
+código fonte do interpretador Lua juntamente
+com o código do programa e usando uma API simples para
+fazer a comunicação entre os dois lados.
+
+Utilizando esta abordagem é possível, por exemplo:
+
+\begin{itemize}%
+\item Rodar scripts Lua de dentro do seu programa
+\item Rodar scripts Lua toda vez que algum evento ocorre no seu programa (hooks)
+\item Expor dados do seu programa para os scripts Lua (e vice-versa)
+\item Expor funções escritas em código C puro para scripts Lua (bindings)
+
+\end{itemize}
+
+\section{Rodando scripts}
+
+A seguir um exemplo de um programa C que roda scripts Lua,
+primeiramente simplificado para melhor ilustrar o conceito:
+
+\begin{lstlisting}[language=C]
+#include <stdio.h>
+#include <stdlib.h>
+
+//a "complicacao" esta aqui dentro deste arquivo
+#include "lua-open.h"
+
+int main(int argc, char** argv)
+{
+    ©//©um lua_State* e um interpretador e seu estado interno
+    lua_State *L = openLua();
+
+    if (argc > 1) {
+	    printf("Hello from C\n");
+	    //uma funcao para carregar um arquivo lua e executa-lo
+	    loadLuaFile(L,argv[1]);
+    } else {
+	    printf("Give me a lua script as an argument!\n ./" __FILE__ " something.lua\n");
+    }
+
+}\end{lstlisting}
+
+Os arquivos \emph{lua-open.h} e \emph{lua-open.c} contém o resto do código:
+
+\begin{lstlisting}[language=C]
+//open-lua.h
+//interpretador lua e a API
+#include <lua.h>
+#include <lauxlib.h>
+#include <lualib.h>
+
+lua_State* openLua();
+void loadLuaFile(lua_State* L, const char *filename);
+
+#include "lua-open.h"
+
+lua_State* openLua()
+{
+    ©//©inicializando lua_State* novo
+    lua_State *L = lua_open();
+
+    ©//©todas as funcoes da API trabalham com um lua_State*
+    ©//©como primeiro parametro
+
+    //bibliotecas padrao do lua sendo abertas
+    luaopen_base(L);
+    luaopen_table(L);
+    luaopen_string(L);
+    luaopen_math(L);
+
+    return L;
+
+}
+
+//equivalente ao loadfile() usado de dentro do lua
+void loadLuaFile(lua_State* L, const char *filename)
+{
+    //carrega o arquivo e compila num chunk
+    int error = luaL_loadfile(L, filename);
+
+    //reporta o erro
+    if(error)
+      printf("Error opening file: %s\n",lua_tostring(L, -1));
+
+    //efetivamente executa o código carregado
+    lua_pcall(L, 0, 0, 0);
+}
+\end{lstlisting}
+
+\section{Pilha}
+
+Cada interpretador Lua possui uma
+pilha de parâmetros que estão sendo manipulados no momento e o
+programa C pode manipular estes valores para se comunicar com os scripts
+Lua.
+
+\section{Mais detalhes}
+
+É possível fazer muito mais com a C API do que o
+demonstrado aqui, mas isto foge ao escopo deste trabalho.
+Como sempre, maiores informações podem ser encontradas em \cite{luamanual} e
+\cite{pil}.
+
+\chapter{Conclusão}
+
+Neste trabalho, fizemos uma passada rápida por vários aspectos da linguagem de
+programação Lua. Este estudo só comprovou as hipóteses que tínhamos de que
+a linguagem é muito interessante e promisora. Ficamos muito impressionados
+com a elegência e poder dela quando opostos à sua simplicidade, velocidade e
+tamanho. Com certeza ela é uma das melhores escolhas para para desenvolver
+aplicações que tenham uma forte dependência na velocidade de execução sem
+poderem deixar de lado o poder de expressão, a facilidade de programação e
+a extensibilidade.
+
+\bibliography{referencias}
+\bibliographystyle{abnt-num}
+
+\end{document}
+
